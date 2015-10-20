@@ -1,18 +1,44 @@
 $(function() {
-  // Replaces context menu
-  $('*').on('contextmenu', function(e){
-    var context = $(this).closest('[data-context-menu]');
-    displayContextMenu(context.data('context-menu'));
-    if (context.length > 0) {
-      return false;
-    }
-  });
+  $('*').click(onLeftClick);
+  $('*').on('contextmenu', onRightClick);
   
 });
 
-function displayContextMenu(menu) {
-  for (action in menu) {
-    console.log(action);
-    console.log(menu[action]);
+function onLeftClick(event) {
+  if ($(this).closest('#contextMenu').length === 0) {
+    $('#contextMenu').remove();
   }
+  else {
+    event.stopPropagation();
+  }
+}
+
+function onRightClick(event) {
+  if ($(this).closest('#contextMenu').length > 0) {
+    return false;
+  }
+  onLeftClick(event);
+  var context = $(this).closest('[data-context-menu]');
+  if (context.length > 0) {
+    displayContextMenu(context.data('context-menu'), event);
+    return false;
+  }
+}
+
+function displayContextMenu(menu, event) {
+  var contextMenu = $('<div>', {
+    'id': 'contextMenu',
+    'style': 'left:' + event.pageX + 'px;top:' + event.pageY + 'px;'
+  });
+  for (action in menu) {
+    var link = $('<a>', {
+      'text': action
+    });
+    link.click(onLeftClick);
+    link.on('contextmenu', onRightClick);
+    link.appendTo(contextMenu);
+  }
+  contextMenu.click(onLeftClick);
+  contextMenu.on('contextmenu', onRightClick);
+  contextMenu.appendTo($('body'));
 }
