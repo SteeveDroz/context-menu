@@ -15,3 +15,7 @@
   background:#BBB;
   cursor:pointer;
 }
+
+#contextMenu hr {
+  margin:0;
+}

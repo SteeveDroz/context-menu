@@ -35,6 +35,10 @@ function displayContextMenu(menu, event) {
       'text': action,
       'data-callback': menu[action]
     });
+    if (link.data('callback') == null) {
+      $('<hr>').appendTo(contextMenu);
+      continue;
+    }
     link.click(onLeftClick);
     link.on('contextmenu', onRightClick);
     link.appendTo(contextMenu);
