@@ -6,9 +6,10 @@
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="context-menu.js" defer></script>
   </head>
-  <body data-context-menu="">
+  <body data-context-menu='{ "Action 1": "a1", "Action 2": "a2" }'>
     <div>
       <a href="#">Test</a>
+      <a href="#" data-context-menu='{ "Action 3": "a3", "Action 4": "a4" }'>Autre test</a>
     </div>
   </body>
 </html>
