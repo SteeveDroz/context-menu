@@ -32,11 +32,21 @@ function displayContextMenu(menu, event) {
   });
   for (action in menu) {
     var link = $('<a>', {
-      'text': action
+      'text': action,
+      'data-callback': menu[action]
     });
     link.click(onLeftClick);
     link.on('contextmenu', onRightClick);
     link.appendTo(contextMenu);
+    link.click(function() {
+      try {
+        window[$(this).data('callback')]();
+      }
+      catch(e) {
+        console.log('Error: function ' + $(this).data('callback') + ' does not exist.');
+      }
+      $('#contextMenu').remove();
+    });
   }
   contextMenu.click(onLeftClick);
   contextMenu.on('contextmenu', onRightClick);
